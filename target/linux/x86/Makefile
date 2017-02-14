@@ -10,7 +10,7 @@ ARCH:=i386
 BOARD:=x86
 BOARDNAME:=x86
 FEATURES:=squashfs ext4 vdi vmdk pcmcia targz
-SUBTARGETS=generic legacy xen_domu ep80579 geode 64 xeon
+SUBTARGETS=generic legacy xen_domu ep80579 geode 64 xeon atom64
 MAINTAINER:=Felix Fietkau <nbd@nbd.name>
 
 DEFAULT_PACKAGES += partx-utils
