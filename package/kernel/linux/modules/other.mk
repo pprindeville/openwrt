@@ -1147,6 +1147,24 @@ endef
 $(eval $(call KernelPackage,gpio-ich))
 
 
+define KernelPackage/gpio-lynxpoint
+  TITLE:=Intel Lynx Point GPIO support
+  SUBMENU:=$(OTHER_MENU)
+  KCONFIG:= \
+    CONFIG_GPIO_LYNXPOINT
+  FILES:= \
+    $(LINUX_DIR)/drivers/gpio/gpio-lynxpoint.ko
+  AUTOLOAD:=$(call AutoLoad,55,gpio-lynxpoint)
+  DEPENDS:=@GPIO_SUPPORT
+endef
+
+define KernelPackage/gpio-lynxpoint/description
+  Intel Lynx Point GPIO support.
+endef
+
+$(eval $(call KernelPackage,gpio-lynxpoint))
+
+
 define KernelPackage/iTCO_wdt
   TITLE:=Intel TCO Watchdog Timer
   SUBMENU:=$(OTHER_MENU)
