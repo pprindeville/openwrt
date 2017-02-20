@@ -6,9 +6,5 @@ src-git routing https://github.com/openwrt-routing/packages.git
 src-git telephony https://github.com/openwrt/telephony.git
 src-git management https://github.com/openwrt-management/packages.git
 src-git targets https://github.com/openwrt/targets.git
-## really just a placeholder for beanstalkd until I can improve the
-## makefiles and get the package upstreamed
-src-git powercode git@git.sajan.io:philip/powercode.git;buildable
-src-git powercode2 git@git.powercode.com:philip/powercode-packages.git
-#src-git oldpackages http://git.openwrt.org/packages.git
 #src-link custom /usr/src/openwrt/custom-feed
+src-git powercode git@git.powercode.com:philip/powercode-packages.git
