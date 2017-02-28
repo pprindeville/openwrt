@@ -1,13 +1,13 @@
 ARCH:=x86_64
 BOARDNAME:=atom64
 FEATURES:=squashfs ext4 pcie usb gpio rtc display -vmdk
-DEFAULT_PACKAGES += kmod-button-hotplug kmod-igb kmod-ixgbe \
+DEFAULT_PACKAGES += kmod-button-hotplug kmod-e1000e kmod-igb kmod-ixgbe \
 		kmod-gpio-dev \
 		kmod-hid kmod-hid-generic \
 		kmod-input-core kmod-input-evdev \
 		kmod-fb kmod-fbcon kmod-iTCO_wdt kmod-mdio \
 		kmod-hwmon-core kmod-hwmon-coretemp kmod-hwmon-vid \
-		-kmod-e1000 -kmod-e1000e \
+		-kmod-e1000 \
 		kmod-crypto-aead kmod-crypto-authenc \
 		kmod-crypto-cbc kmod-crypto-crc32c kmod-crypto-ctr \
 		kmod-crypto-des kmod-crypto-ecb kmod-crypto-gf128 \
