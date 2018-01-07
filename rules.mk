@@ -50,6 +50,7 @@ confvar=$(shell echo '$(foreach v,$(1),$(v)=$(subst ','\'',$($(v))))' | $(MKHASH
 # @param 1: File name.
 ##
 strip_last=$(patsubst %.$(lastword $(subst .,$(space),$(1))),%,$(1))
+dollar2=$(subst $$,$$$$,$(1))
 
 paren_left = (
 paren_right = )
