@@ -255,9 +255,13 @@ static int conf_set_sym_val(struct symbol *sym, int def, int def_flags, char *p)
 		if (def != S_DEF_AUTO) {
 			if (*p++ != '"')
 				break;
-			for (p2 = p; (p2 = strpbrk(p2, "\"\\")); p2++) {
+			for (p2 = p; (p2 = strpbrk(p2, "\"\\$")); p2++) {
 				if (*p2 == '"') {
 					*p2 = 0;
+					break;
+				}
+				else if (*p2 == '$' && p2[1] != '$') {
+					conf_warning("invalid string found");
 					break;
 				}
 				memmove(p2, p2 + 1, strlen(p2));
@@ -656,7 +660,7 @@ static char *escape_string_value(const char *in)
 
 	p = in;
 	while (1) {
-		p += strcspn(p, "\"\\");
+		p += strcspn(p, "\"\\$");
 
 		if (p[0] == '\0')
 			break;
@@ -672,14 +676,17 @@ static char *escape_string_value(const char *in)
 
 	p = in;
 	while (1) {
-		len = strcspn(p, "\"\\");
+		len = strcspn(p, "\"\\$");
 		strncat(out, p, len);
 		p += len;
 
 		if (p[0] == '\0')
 			break;
 
-		strcat(out, "\\");
+		if (p[0] == '$')
+			strcat(out, "$");
+		else
+			strcat(out, "\\");
 		strncat(out, p++, 1);
 	}
 
