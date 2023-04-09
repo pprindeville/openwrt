@@ -304,7 +304,7 @@ create_backup_archive() {
 
 		# Rest of archive with config files and ending padding
 		if [ $ret -eq 0 ]; then
-			tar c${TAR_V} -C / -T "$CONFFILES" || ret=1
+			tar c${TAR_V} -C / -T "$CONFFILES" -X /etc/sysignore.conf || ret=1
 		fi
 
 		[ $ret -eq 0 ]
