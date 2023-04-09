@@ -35,6 +35,7 @@ export SAVE_CONFIG=1
 export IGNORE_MINOR_COMPAT=0
 export FORCE=0
 export CONFFILES=/tmp/sysupgrade.conffiles
+export IGNOREFILES=/tmp/sysupgrade.ignore
 
 # parse options
 while [ -n "$1" ]; do
@@ -264,6 +265,9 @@ create_backup_archive() {
 
 	[ "$conf_tar" != "-" ] || conf_tar=""
 
+	sed -ne '/^[[:space:]]*$/d; /^#/d; p' \
+		/etc/sysignore.conf /lib/upgrade/ignore.d/* > "$IGNOREFILES"
+
 	v "Saving config files..."
 	[ "$VERBOSE" -gt 1 ] && TAR_V="v" || TAR_V=""
 	sed -i -e 's,^/,,' "$CONFFILES"
@@ -304,7 +308,7 @@ create_backup_archive() {
 
 		# Rest of archive with config files and ending padding
 		if [ $ret -eq 0 ]; then
-			tar c${TAR_V} -C / -T "$CONFFILES" -X /etc/sysignore.conf || ret=1
+			tar c${TAR_V} -C / -T "$CONFFILES" -X "$IGNOREFILES" || ret=1
 		fi
 
 		[ $ret -eq 0 ]
@@ -317,7 +321,7 @@ create_backup_archive() {
 		[ -f "$conf_tar" ] && rm -f "$conf_tar"
 	fi
 
-	rm -f "$CONFFILES"
+	rm -f "$CONFFILES" "$IGNOREFILES"
 
 	return "$err"
 }
