@@ -49,6 +49,16 @@ define Package/base-files
   VERSION:=$(PKG_RELEASE)~$(lastword $(subst -, ,$(REVISION)))
 endef
 
+define Package/base-files/config
+        menu "Select base-file options"
+                config ROOTDIR_PRESERVE
+                        bool "Preserve across sysupgrades"
+                        default n
+                        help
+                          Backup and restore during sysupgrade
+        endmenu
+endef
+
 define Package/base-files/conffiles
 /etc/config/
 /etc/config/network
@@ -74,6 +84,11 @@ define Package/base-files/conffiles
 /etc/sysignore.conf
 $(call $(TARGET)/conffiles)
 endef
+
+ifeq ($(CONFIG_ROOTDIR_PRESERVE),y)
+  Package/base-files/conffiles += \
+	  /root/
+endif
 
 define Package/base-files/description
  This package contains a base filesystem and system scripts for OpenWrt.
