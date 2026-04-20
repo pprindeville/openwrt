@@ -27,6 +27,7 @@ PKG_CONFIG_DEPENDS += \
 	CONFIG_EMMC_SUPPORT \
 	CONFIG_CLEAN_IPKG \
 	CONFIG_PER_FEED_REPO \
+	CONFIG_BASE_FILES_ROOTDIR_PRESERVE \
 	$(foreach feed,$(FEEDS_AVAILABLE),CONFIG_FEED_$(feed))
 
 include $(INCLUDE_DIR)/package.mk
@@ -48,6 +49,14 @@ define Package/base-files
   TITLE:=Base filesystem for OpenWrt
   URL:=https://openwrt.org/
   VERSION:=$(PKG_RELEASE)~$(lastword $(subst -, ,$(REVISION)))
+endef
+
+define Package/base-files/config
+	config BASE_FILES_ROOTDIR_PRESERVE
+		bool "Preserve across sysupgrades"
+		default n
+		help
+		  Backup and restore during sysupgrade
 endef
 
 define Package/base-files/conffiles
@@ -72,6 +81,7 @@ define Package/base-files/conffiles
 /etc/sysctl.conf
 /etc/sysupgrade.conf
 /etc/sysignore.conf
+$(if $(CONFIG_BASE_FILES_ROOTDIR_PRESERVE),/root/)
 $(call $(TARGET)/conffiles)
 endef
 
